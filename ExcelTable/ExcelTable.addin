@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Command ExcelTable</Text>
+    <Description>Some description for ExcelTable</Description>
+    <Assembly>ExcelTable.dll</Assembly>
+    <FullClassName>ExcelTable.Command</FullClassName>
+    <ClientId>ba0f311e-28b7-4c81-8b9f-8c8a90cc0ce4</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+  <AddIn Type="Application">
+    <Name>Application ExcelTable</Name>
+    <Assembly>ExcelTable.dll</Assembly>
+    <FullClassName>ExcelTable.App</FullClassName>
+    <ClientId>21b5b7f1-da2c-4f61-bc88-683043f06a42</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>
