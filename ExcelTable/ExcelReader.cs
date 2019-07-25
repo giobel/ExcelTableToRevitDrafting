@@ -100,9 +100,13 @@ namespace ExcelTable
                             double previousRow;
                             rowHeights.TryGetValue(row - 1, out previousRow);
 
+                            double approxColumnWidth = totalColumnWidth / 5.625;
+
+                            double exactColumnWidth = columnWidths.Values.Aggregate((x, y) => Math.Abs(x - approxColumnWidth) < Math.Abs(y - approxColumnWidth) ? x : y);
+
                             data.Add(new Cell(row, col, cellText, x: previousColumn + (columnWidths[col + (colsMerged - 1)] - previousColumn) / 2,
                                                                   y: previousRow + (rowHeights[row + (rowsMerged - 1)] - previousRow) / 2,
-                                                                  cellWidth: totalColumnWidth / 5.625,
+                                                                  cellWidth: exactColumnWidth,
                                                                   rowHeight: totalRowHeight
                                                                   )
                                     );
