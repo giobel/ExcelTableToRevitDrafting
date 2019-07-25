@@ -22,7 +22,7 @@ namespace ExcelTable
 
             ElementId defaultTypeId = doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType);
 
-            string path = @"C:\Users\giovanni.brogiolo\Documents\Vertical and Horiz.xlsx";
+            string path = @"C:\Users\giovanni.brogiolo\Documents\190605 Anchor Schedule.xlsx";
 
             ExcelReader excelReader = new ExcelReader();
 
@@ -30,14 +30,24 @@ namespace ExcelTable
 
             //TaskDialog.Show("resutl", data.Count.ToString());
 
+            double scaleWidth = 2;
+            double scaleHeight = 0.3;
+
             using (Transaction t = new Transaction(doc, "Create table"))
                 {
                     t.Start();
 
                     foreach (Cell cell in excelReader.data)
                     {
-                    Rectangle(doc, new XYZ(cell.X / 304.8 * 2, -cell.Y / 304.8 / 2, 0), cell.CellWidth / 304.8 * 2, cell.RowHeight / 304.8 / 2);
-                    TextNote tn = TextNote.Create(doc, doc.ActiveView.Id, new XYZ(cell.X / 304.8 * 2 - cell.CellWidth / 2 / 304.8 * 2, -cell.Y / 304.8 / 2 + cell.RowHeight / 304.8 / 2 / 4, 0), cell.CellWidth / 304.8 * 2, cell._value, defaultTypeId);
+                    Rectangle(doc, new XYZ(ToFeet(cell.X) * scaleWidth, -ToFeet(cell.Y)*scaleHeight, 0), ToFeet(cell.CellWidth) * scaleWidth, ToFeet(cell.RowHeight) * scaleHeight);
+
+                    
+
+                    TextNote tn = TextNote.Create(doc, doc.ActiveView.Id, 
+                        new XYZ( ToFeet(cell.X) * scaleWidth - ToFeet(cell.CellWidth) / 2 * scaleWidth, 
+                        - ToFeet(cell.Y) * scaleHeight + ToFeet(cell.RowHeight)*scaleHeight*0.35, //+ ToFeet(cell.RowHeight) * scaleHeight / 2, 
+                        0), 
+                        ToFeet(cell.CellWidth) * scaleWidth, cell._value, defaultTypeId);
                     tn.HorizontalAlignment = HorizontalTextAlignment.Center;
                 }
                     
@@ -48,6 +58,12 @@ namespace ExcelTable
 
             return Result.Succeeded;
         }
+
+        private double ToFeet(double value)
+        {
+            return value / 304.8;
+        }
+
         private void Rectangle(Document doc, XYZ center, double width, double height)
         {
 
