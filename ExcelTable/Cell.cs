@@ -10,11 +10,23 @@ namespace ExcelTable
     {
         private int _row { get; set; }
         private int _column { get; set; }
-        public string _value { get; private set; }
+        private string _value { get; set; }
         private double _x { get; set; }
         private double _y { get; set; }
         private double _cellWidth { get; set; }
         private double _rowHeight { get; set; }
+
+        public int Row
+        {
+            get { return _row; }
+            private set { _row = value; }
+        }
+        public int Column
+        {
+            get { return _column; }
+            private set { _column = value; }
+        }
+
         public double X
         {
             get { return _x; }
@@ -38,11 +50,16 @@ namespace ExcelTable
             private set { _rowHeight = value; }
         }
 
-        public Cell(int row, int column, string value, double x, double y, double cellWidth, double rowHeight)
+        public string Text {
+            get { return _value; }
+            private set { _value = value; }
+        }
+
+        public Cell(int row, int column, string text, double x, double y, double cellWidth, double rowHeight)
         {
             _row = row;
             _column = column;
-            _value = value;
+            _value = text;
             _x = x;
             _y = y;
             _cellWidth = cellWidth;

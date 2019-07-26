@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace ExcelTable
 {
-    class ExcelReader
+    class ExcelInteropReader
     {
         public List<Cell> data { get; private set; }
         public List<string> dataValue { get; private set; }
         public Dictionary<int, double> columnWidths { get; private set; }
         public Dictionary<int, double> rowHeights { get; private set; }
 
-        public ExcelReader()
+        public ExcelInteropReader()
         {
             data = new List<Cell>();
 
@@ -25,6 +25,7 @@ namespace ExcelTable
         {
 
             Application excelApplication = new Application();
+
             Workbook excelWorkBook = excelApplication.Workbooks.Open(path);
 
             Worksheet workSheet = excelWorkBook.Sheets[1];
@@ -104,12 +105,12 @@ namespace ExcelTable
 
                             double exactColumnWidth = columnWidths.Values.Aggregate((x, y) => Math.Abs(x - approxColumnWidth) < Math.Abs(y - approxColumnWidth) ? x : y);
 
-                            data.Add(new Cell(row, col, cellText, x: previousColumn + (columnWidths[col + (colsMerged - 1)] - previousColumn) / 2,
-                                                                  y: previousRow + (rowHeights[row + (rowsMerged - 1)] - previousRow) / 2,
-                                                                  cellWidth: exactColumnWidth,
-                                                                  rowHeight: totalRowHeight
-                                                                  )
-                                    );
+                            data.Add(new Cell(row, col, cellText, x: previousColumn + exactColumnWidth / 2,
+                                                        y: previousRow + (rowHeights[row + (rowsMerged - 1)] - previousRow) / 2,
+                                                        cellWidth: exactColumnWidth,
+                                                        rowHeight: totalRowHeight
+                                                        )
+                          );
                             dataValue.Add(cellText);
                         }
                     }
