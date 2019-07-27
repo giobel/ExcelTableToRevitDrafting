@@ -78,7 +78,7 @@ namespace ExcelTable
 
                     if (objRange.HasMerged)
                     {
-                        if (!dataValue.Contains(cellText) && cellText != null)
+                        if (!dataValue.Contains(cellText))
                         {
                             int rowsMerged = objRange.MergeArea.RowCount;
                             int colsMerged = objRange.MergeArea.ColumnCount;

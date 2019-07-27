@@ -28,14 +28,9 @@ namespace ExcelTable
 
             //string path = @"C:\Users\giovanni.brogiolo\Documents\190605 Anchor Schedule.xlsx";
 
-
-
-
             //TaskDialog.Show("resutl", data.Count.ToString());
 
-            double scaleWidth = 2;
-            double scaleHeight = 0.3;
-
+            
             Dictionary<int, List<XYZ>> rowsPts = new Dictionary<int, List<XYZ>>();
             Dictionary<int, List<XYZ>> colPts = new Dictionary<int, List<XYZ>>();
 
@@ -46,9 +41,11 @@ namespace ExcelTable
 
                 form.ShowDialog();
 
-                if (form.DialogResult == System.Windows.Forms.DialogResult.OK)
-                {
+
                     string path = form.filePath;
+                    double scaleWidth = form.widthFactor;
+                    double scaleHeight = form.heightFactor;
+
 
                     //ExcelInteropReader excelReader = new ExcelInteropReader(); TOO SLOW
 
@@ -100,7 +97,7 @@ namespace ExcelTable
                                     text = "N/A";
                                 }
 
-                                TextNote tn = TextNote.Create(doc, doc.ActiveView.Id, new XYZ(ToFeet(cell.X) * scaleWidth - ToFeet(cell.CellWidth) / 2 * scaleWidth, -ToFeet(cell.Y) * scaleHeight + ToFeet(cell.RowHeight) * scaleHeight * 0.35, ToFeet(cell.CellWidth) * scaleWidth), text, defaultTypeId);
+                                TextNote tn = TextNote.Create(doc, doc.ActiveView.Id, new XYZ(ToFeet(cell.X) * scaleWidth, -ToFeet(cell.Y) * scaleHeight + ToFeet(cell.RowHeight) * scaleHeight * 0.35, ToFeet(cell.CellWidth) * scaleWidth), text, defaultTypeId);
 
                                 tn.HorizontalAlignment = HorizontalTextAlignment.Center;
 
@@ -112,8 +109,11 @@ namespace ExcelTable
                             
                         }
 
-                        TaskDialog.Show("Error", $"Errors: {sb.ToString()}");
-
+                        if (sb.Length > 0)
+                        {
+                            TaskDialog.Show("Error", $"Errors: {sb.ToString()}");
+                        }
+                     
                         //draw outer border
                         XYZ topLeftCorner = rowsPts.Values.First().First(); //0,0,0
                         XYZ rightX = rowsPts.Values.Last().Last();
@@ -150,10 +150,14 @@ namespace ExcelTable
 
                         t.Commit();
                     }//close transaction
-                }
+                
 
 
             }
+
+            ICollection<ElementId> fec = new FilteredElementCollector(doc, doc.ActiveView.Id).ToElementIds();
+
+            uidoc.ShowElements(fec);
 
             return Result.Succeeded;
         }

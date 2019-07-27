@@ -13,6 +13,9 @@ namespace ExcelTable
     public partial class Form1 : Form
     {
         public string filePath { get; private set; }
+        public double widthFactor { get; private set; }
+        public double heightFactor { get; private set; }
+
         public Form1()
         {
             InitializeComponent();
@@ -44,11 +47,28 @@ namespace ExcelTable
             }
 
             filePath = textBoxFilePath.Text;
+
         }
 
         private void TextBoxFilePath_TextChanged(object sender, EventArgs e)
         {
             filePath = textBoxFilePath.Text;
+        }
+
+        private void TbWidthFactor_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void TbHeightFactor_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            widthFactor = Convert.ToDouble(tbWidthFactor.Text);
+            heightFactor = Convert.ToDouble(tbHeightFactor.Text);
         }
     }
 }
